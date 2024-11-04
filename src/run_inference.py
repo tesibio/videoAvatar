@@ -59,6 +59,7 @@ if verificar_archivos(video_path, audio_path):
         wav2lip_path=wav2lip_path,
         inference_device="CPU",
         outfile=outfile,
+        resize_factor = 2,
     )
 else:
     print("No se pudo proceder con la inferencia debido a problemas con los archivos.")

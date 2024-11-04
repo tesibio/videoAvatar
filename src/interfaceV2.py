@@ -7,10 +7,12 @@ import tempfile
 import shutil
 import os
 import subprocess
+import sys  # <-- Importar sys para obtener el intérprete de Python actual
 from whisper_audio_transcriber import transcribe_audio, guardar_transcripcion
 
 # Rutas de archivos (ajustadas según la estructura especificada en miwav2lipv6)
 AUDIO_COPY_PATH = os.path.abspath("../miwav2lipv6/assets/audio/grabacion_gradio.wav")
+#AUDIO_COPY_PATH = os.path.abspath("../miwav2lipv6/assets/audio/audio.wav")
 VIDEO_PATH = os.path.abspath("../miwav2lipv6/assets/video/data_video_sun_5s.mp4")
 TRANSCRIPTION_TEXT_PATH = os.path.abspath("../miwav2lipv6/results/transcripcion.txt")
 RESULT_VIDEO_PATH = os.path.abspath("../miwav2lipv6/results/result_voice.mp4")
@@ -72,9 +74,12 @@ def procesar_video_audio():
     # Ruta correcta a run_inference.py
     run_inference_path = os.path.abspath("../miwav2lipv6/src/run_inference.py")
 
-    # Ejecutar run_inference.py como un subproceso
+    # Obtener el intérprete de Python actual
+    python_interpreter = sys.executable
+
+    # Ejecutar run_inference.py como un subproceso usando el intérprete actual
     result = subprocess.run(
-        ["python", run_inference_path],
+        [python_interpreter, run_inference_path],
         capture_output=True,
         text=True
     )
