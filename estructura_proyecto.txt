@@ -1,0 +1,34 @@
+proyecto_root/
+│
+├── assets/
+   ├── video/
+│   │   ├──data_video_sun_5s.mp4
+│   └── audio/
+│       └──data_audio_sun_5s.wav
+│   └── # Archivos de datos, audio y video de prueba, como `data_audio_sun_5s.wav`
+│
+├── checkpoints/
+│   └── # Modelos y checkpoints preentrenados, como `wav2lip_gan.pth`
+│
+├── models/
+│   └── # Modelos convertidos a OpenVINO IR, como `face_detection.xml` y `wav2lip.xml`
+│
+├── src/
+|   ├── utils/
+|   ├── Wav2Lip/
+│   ├── convert_models.py 
+│   ├── gradio_helper.py
+│   ├── ov_inference.py
+│   ├── ov_wav2lip_helper.py
+│   └── run_inference
+│
+├── tests/
+│   └── # Scripts de pruebas para verificar la funcionalidad de tu código
+│
+├── results/
+│   └── result_voice.mp4 
+│
+├── requirements.txt            # Lista de dependencias del proyecto
+├── setup.py                    # Script de configuración del proyecto
+├── estructura_proyecto.py                    # Script de configuración del proyecto
+└── README.md                   # Documentación del proyecto

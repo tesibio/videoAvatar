@@ -1,0 +1,24 @@
+#Ignorar entorno virtual
+env/
+
+#Ignorar archivos y carpetas de compilacion
+__pycache__/
+*.pyc 
+*.pyo
+*.py[cod]
+.vscode/
+.DS_Store
+
+#Ignorar archivos de log y salida de pruebas
+*.log
+*.out
+*.tmp
+
+
+#Ignorar modelos y checkpoints
+models/
+checkpoints/
+src/Wav2Lip/
+assets/
+data/
+#Archivos temporales y de sistema
