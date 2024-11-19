@@ -44,7 +44,8 @@ def verificar_archivos(video_path, audio_path):
     return True
 
 # Rutas de archivos
-video_path = os.path.abspath("../miwav2lipv6/assets/video/data_video_sun_5s.mp4")
+#video_path = os.path.abspath("../miwav2lipv6/assets/video/data_video_sun_5s.mp4")
+video_path = os.path.abspath("../miwav2lipv6/assets/video/data_video_sun.mp4")
 #audio_path = os.path.abspath("../miwav2lipv6/assets/audio/grabacion_gradio.wav")
 audio_path = os.path.abspath("../miwav2lipv6/assets/audio/audio.wav")
 face_detection_path = os.path.abspath("../miwav2lipv6/models/face_detection.xml")

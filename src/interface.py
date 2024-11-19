@@ -9,7 +9,8 @@ import os
 
 # Rutas de video y audio con absolutas para evitar errores de acceso
 AUDIO_COPY_PATH = os.path.abspath(os.path.join("..", "miwav2lipv6","assets", "audio", "grabacion_gradio.wav"))
-VIDEO_PATH = os.path.abspath("../miwav2lipv6/assets/video/data_video_sun_5s.mp4")
+#VIDEO_PATH = os.path.abspath("../miwav2lipv6/assets/video/data_video_sun_5s.mp4")
+VIDEO_PATH = os.path.abspath("../miwav2lipv6/assets/video/data_video_sun.mp4")
 
 # Verificar la existencia del video
 if not os.path.exists(VIDEO_PATH):

@@ -5,7 +5,8 @@ import numpy as np
 
 examples = [
     [
-        "data_video_sun_5s.mp4",
+        #"data_video_sun_5s.mp4",
+        "data_video_sun.mp4",
         "data_audio_sun_5s.wav",
     ],
 ]

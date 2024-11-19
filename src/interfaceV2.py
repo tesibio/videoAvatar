@@ -12,10 +12,11 @@ from whisper_audio_transcriber import transcribe_audio, guardar_transcripcion
 
 # Paths to files (adjusted as per your specified structure)
 AUDIO_RECORD_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/audio/grabacion_gradio.wav")
-VIDEO_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/video/data_video_sun_5s.mp4")
+#VIDEO_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/video/data_video_sun_5s.mp4")
+VIDEO_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/video/data_video_sun.mp4")
 TRANSCRIPTION_TEXT_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/results/transcripcion.txt")
-RESULT_AUDIO_TEMP_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/results/audio.wav")
-RESULT_AUDIO_FINAL_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/audio/audioV2.wav")
+RESULT_AUDIO_TEMP_PATH = os.path.abspath( "C:/programacionEjercicios/miwav2lipv6/results/audiov2.wav")
+RESULT_AUDIO_FINAL_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/audio/audio.wav")
 RESULT_VIDEO_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/results/result_voice.mp4")
 TEXT_TO_SPEECH_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/src/text_to_speech.py")
 
@@ -30,7 +31,7 @@ def grabar_audio(duration=8, sample_rate=44100):
     temp_audio = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
     write(temp_audio.name, sample_rate, audio_data)
     print("Audio temporarily saved at:", temp_audio.name)
-
+    temp_audio.close()  # Asegúrate de cerrarlo antes de usarlo
     os.makedirs(os.path.dirname(AUDIO_RECORD_PATH), exist_ok=True)
     shutil.copy(temp_audio.name, AUDIO_RECORD_PATH)
     print(f"Recording copied to: {AUDIO_RECORD_PATH}")
@@ -48,6 +49,8 @@ def transcribir_con_progreso(audio_path):
     progreso(75, "Saving transcription...")
     guardar_transcripcion(transcripcion, filename=TRANSCRIPTION_TEXT_PATH)
     progreso(100, "Transcription completed.")
+    if not os.path.exists(TRANSCRIPTION_TEXT_PATH):
+        raise FileNotFoundError(f"El archivo {TRANSCRIPTION_TEXT_PATH} no se generó.")
 
     return transcripcion
 
@@ -59,6 +62,8 @@ def generar_audio_desde_texto():
         capture_output=True,
         text=True
     )
+    if result.returncode != 0:
+        raise RuntimeError(f"Error ejecutando text_to_speech.py: {result.stderr}")
     if result.stdout:
         print("Output:", result.stdout)
     if result.stderr:
@@ -73,7 +78,7 @@ def generar_audio_desde_texto():
 
         return RESULT_AUDIO_FINAL_PATH
     else:
-        print("Error: Audio file was not generated in 'results/audio.wav'")
+        print(f"Error: Audio file was not generated in {RESULT_AUDIO_FINAL_PATH} ")
         return None
 
 # Function to process video and audio using run_inference.py with the generated audio file
@@ -116,6 +121,7 @@ def interfaz():
                 progreso_transcripcion = gr.Textbox(label="Transcription Status", interactive=False)
 
             # Full flow: recording, transcription, text-to-speech, and video processing
+            """
             def flujo_completo():
                 _, mensaje_grabacion = grabar_audio()
                 transcripcion = transcribir_con_progreso(AUDIO_RECORD_PATH)
@@ -127,6 +133,34 @@ def interfaz():
                     return mensaje_grabacion, AUDIO_RECORD_PATH, transcripcion, audio_generado, video_path
                 else:
                     return mensaje_grabacion, AUDIO_RECORD_PATH, transcripcion, audio_generado or "Audio generation failed", video_path or "Video generation failed"
+            """
+            def flujo_completo():
+                try:
+                    print("Inicio del flujo completo...")
+                    # Grabar audio
+                    audio_path, mensaje_grabacion = grabar_audio()
+                    print("Audio grabado en:", audio_path)
+                    # Transcribir audio
+                    transcripcion = transcribir_con_progreso(audio_path)
+                    print("Transcripción completada:", transcripcion)
+                    # Generar audio desde texto
+                    audio_generado = generar_audio_desde_texto()
+                    print("Audio generado:", audio_generado)
+                    # Procesar video y audio
+                    video_path = procesar_video_audio()
+                    print("Video procesado en:", video_path)
+                    # Devolver resultados si todo fue exitoso
+                    return mensaje_grabacion, audio_path, transcripcion, audio_generado, video_path
+                except Exception as e:
+                    # Imprime el error en la terminal y regresa mensajes de error a la interfaz
+                    print("Error detectado en flujo completo:", str(e))
+                    return (
+                        "Error durante el flujo completo",
+                        None,  # Audio grabado
+                        f"Error: {str(e)}",  # Transcripción
+                        None,  # Audio generado
+                        None   # Video procesado
+                            )
 
             grabar_button.click(
                 flujo_completo,

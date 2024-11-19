@@ -613,7 +613,7 @@ def ov_inference(
             print("Model loaded")
             
             frame_h, frame_w = full_frames[0].shape[:-1]
-            out = cv2.VideoWriter("../miwav2lipv6/Wav2Lip/temp/result.avi", cv2.VideoWriter_fourcc(*"DIVX"), fps, (frame_w, frame_h))
+            out = cv2.VideoWriter("C:/programacionEjercicios/miwav2lipv6/src/Wav2Lip/temp/result.avi", cv2.VideoWriter_fourcc(*"DIVX"), fps, (frame_w, frame_h))
             pred_ov = compiled_wav2lip_model({"audio_sequences": mel_batch.numpy(), "face_sequences": img_batch.numpy()})[0]
         else:
             img_batch = np.transpose(img_batch, (0, 3, 1, 2))
@@ -631,7 +631,7 @@ def ov_inference(
 
     out.release()
 
-    command = "ffmpeg -y -i {} -i {} -strict -2 -q:v 1 {}".format(audio_path, "../miwav2lipv6/src/Wav2Lip/temp/result.avi", outfile)
+    command = "ffmpeg -y -i {} -i {} -strict -2 -q:v 1 {}".format(audio_path, "C:/programacionEjercicios/miwav2lipv6/src/Wav2Lip/temp/result.avi", outfile)
     subprocess.call(command, shell=True)
 
     return outfile
