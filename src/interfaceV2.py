@@ -14,6 +14,7 @@ from whisper_audio_transcriber import transcribe_audio, guardar_transcripcion
 AUDIO_RECORD_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/audio/grabacion_gradio.wav")
 #VIDEO_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/video/data_video_sun_5s.mp4")
 VIDEO_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/video/data_video_sun.mp4")
+#TRANSCRIPTION_TEXT_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/results/transcripcion.txt")
 TRANSCRIPTION_TEXT_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/results/transcripcion.txt")
 RESULT_AUDIO_TEMP_PATH = os.path.abspath( "C:/programacionEjercicios/miwav2lipv6/results/audiov2.wav")
 RESULT_AUDIO_FINAL_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/audio/audio.wav")
