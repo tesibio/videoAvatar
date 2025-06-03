@@ -5,7 +5,7 @@ import os
 
 # Rutas de los archivos
 #TRANSCRIPTION_TEXT_PATH = "C:/programacionEjercicios/miwav2lipv6/results/transcripcion.txt"
-TRANSCRIPTION_TEXT_PATH = "C:/programacionEjercicios/miwav2lipv6/results/OpenAI_response"
+TRANSCRIPTION_TEXT_PATH = "C:/programacionEjercicios/miwav2lipv6/results/OpenAI_response.txt"
 OUTPUT_AUDIO_PATH = "C:/programacionEjercicios/miwav2lipv6/assets/audio/audio.wav"
 
 def generar_audio_desde_texto():

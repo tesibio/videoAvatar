@@ -9,6 +9,8 @@ import os
 import subprocess
 import sys
 from whisper_audio_transcriber import transcribe_audio, guardar_transcripcion
+from call_openai_api import  moni as rtff   # Asegúrate de que el archivo call_open_api.py esté en el mismo directorio
+
 
 # Paths to files (adjusted as per your specified structure)
 AUDIO_RECORD_PATH = os.path.abspath("C:/programacionEjercicios/miwav2lipv6/assets/audio/grabacion_gradio.wav")
@@ -111,14 +113,14 @@ def interfaz():
         with gr.Row():
             with gr.Column():
                 gr.Video(VIDEO_PATH, loop=True, autoplay=True, height=300, width=500)
-                grabar_button = gr.Button("Start Audio Recording")
+                grabar_button = gr.Button("Comenzando la grabacion de audio")
                 estado_grabacion = gr.Textbox(label="Recording Status", interactive=False)
 
             with gr.Column():
-                output_audio = gr.Audio(AUDIO_RECORD_PATH, label="Recorded Audio", interactive=False)
-                output_audio_speech = gr.Audio(RESULT_AUDIO_FINAL_PATH, label="Generated Audio from Text", interactive=False)
-                video_resultado = gr.Video(label="Processed Video", interactive=False)
-                texto_transcripcion = gr.Textbox(label="Transcribed Text")
+                output_audio = gr.Audio(AUDIO_RECORD_PATH, label="Audio Grabado", interactive=False)
+                output_audio_speech = gr.Audio(RESULT_AUDIO_FINAL_PATH, label="Audio TTS", interactive=False)
+                video_resultado = gr.Video(RESULT_VIDEO_PATH,label="Video procesado", interactive=False)
+                texto_transcripcion = gr.Textbox(label="Texto transcrito")
                 progreso_transcripcion = gr.Textbox(label="Transcription Status", interactive=False)
 
             # Full flow: recording, transcription, text-to-speech, and video processing
@@ -144,6 +146,11 @@ def interfaz():
                     # Transcribir audio
                     transcripcion = transcribir_con_progreso(audio_path)
                     print("Transcripción completada:", transcripcion)
+                    
+                    #respuesta_openai = rtff(transcripcion)
+                    respuesta_openai = rtff(TRANSCRIPTION_TEXT_PATH)
+                    print("Respuesta generada  por OpenAI")
+                    
                     # Generar audio desde texto
                     audio_generado = generar_audio_desde_texto()
                     print("Audio generado:", audio_generado)
@@ -152,6 +159,7 @@ def interfaz():
                     print("Video procesado en:", video_path)
                     # Devolver resultados si todo fue exitoso
                     return mensaje_grabacion, audio_path, transcripcion, audio_generado, video_path
+                
                 except Exception as e:
                     # Imprime el error en la terminal y regresa mensajes de error a la interfaz
                     print("Error detectado en flujo completo:", str(e))

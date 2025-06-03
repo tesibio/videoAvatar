@@ -24,19 +24,12 @@ llm = ChatOpenAI(
     temperature = 0.7,
     model = "gpt-4"
 )
-def read_text_from_file(filename = "C:/programacionEjercicios/miwav2lipv6/results/transcripcion.txt"):
-    try:
-        with open(filename, 'r') as file:
-            return file.read()
-    except Exception as e:
-        print(f"Error al leer el archivo{filename}: {e}")
-        return ""
 
 #plantilla del prompt con el texto leido del archivo
 template ="""
-Eres un asistente de IA que ayuda a los usuarios a generar resumenes claros y precisos de solo un enunciado. Da siempre la respuesta en español
+Eres un asistente de IA que orienta a los alumnos a ser mejores personas. Haz una haiku de 5 lineas sobre lo que te estan comentando. Da siempre la respuesta en Español
 Texto:{texto}
-Resumen:
+Respuesta:
 """
 prompt = PromptTemplate(
     input_variables = ["texto"],
@@ -48,26 +41,40 @@ chain = LLMChain(
     prompt = prompt
 )
 
-def main():
+#def save_summary_to_file(summary_text, filename = 'response.txt'):
+def save_summary_to_file(summary_text, filename = 'C:/programacionEjercicios/miwav2lipv6/results/OpenAI_response.txt'):
+    try:
+        with open(filename,'w', encoding='utf-8') as file:
+            file.write(summary_text)
+        print(f"El resumen se ha guardado exitosamente en {filename}")
+    except Exception as e:
+        print(f"Ocurrio un error al guardar el resumen {e}")
+
+def read_text_from_file(filename):
+    try:
+        with open(filename, 'r') as file:
+            return file.read()
+    except Exception as e:
+        print(f"Error al leer el archivo {filename}: {e}")
+        return ""    
+
+
+#def main():
+def moni(archivo):
     #texto_usuario = input("Ingresa un texto para resumir:")
-    texto_usuario = read_text_from_file("C:/programacionEjercicios/miwav2lipv6/results/transcripcion.txt")
+    #texto_usuario = read_text_from_file("C:/programacionEjercicios/miwav2lipv6/results/transcripcion.txt")
+    texto_usuario = read_text_from_file(archivo)
     resultado = chain.run(texto = texto_usuario)
 
     #Mostrar el resumen generado
     print("\nResumen generado:")
     print(resultado)
     save_summary_to_file(resultado)
+
+    return resultado
 #
-#def save_summary_to_file(summary_text, filename = 'response.txt'):
-def save_summary_to_file(summary_text, filename = 'C:/programacionEjercicios/miwav2lipv6/results/OpenAI_response.txt'):
-    try:
-        with open(filename,'w') as file:
-            file.write(summary_text)
-        print(f"El resumen se ha guardado exitosamente en {filename}")
-    except Exception as e:
-        print(f"Ocurrio un error al guardar el resumen {e}")
-    
+
 
 if __name__ == "__main__":
-    main()
+    moni()
 
